@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Fail</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<h1 id="title">Fail</h1>
+
+<video src="https://www.cs.tufts.edu/comp/20/fail.mp4" id="failvideo" controls></video>
+<div id="lyrics"></div>
+
+<script>
+	// Complete this section and create a CSS file named style.css
+	vid = document.getElementById("failvideo");
+	lyr = document.getElementById("lyrics"); 
+	vid.addEventListener("timeupdate", updateLyrics, false); 
+
+	function updateLyrics(){
+		if(vid.currentTime < 9){
+			lyr.innerHTML = "Not yet..."
+		}
+		else if(vid.currentTime < 13){
+			lyr.innerHTML = "You've got me feelin' emotions"
+		}
+		else if(vid.currentTime < 18){
+			lyr.innerHTML = "Deeper than I've ever dreamed of"
+		}
+		else if(vid.currentTime < 21){
+			lyr.innerHTML = "You've got me feelin' emotions"
+		}
+		else if(vid.currentTime < 26){
+			lyr.innerHTML = "Higher than the heavens above"
+		}
+		else if(vid.currentTime < 30){
+			lyr.innerHTML = "I feel good, I feel nice"
+		}
+		else if(vid.currentTime < 34){
+			lyr.innerHTML = "I've never felt so satisfied"
+		}
+		else if(vid.currentTime < 38){
+			lyr.innerHTML = "I'm in love, I'm alive"
+		}
+		else if(vid.currentTime < 44){
+			lyr.innerHTML = "Intoxicated, flyin' high"
+		}
+		else if(vid.currentTime < 48){
+			lyr.innerHTML = "Feels like a dream"
+		}
+		else if(vid.currentTime < 51){
+			lyr.innerHTML = "When you touch me tenderly"
+		}
+		else if(vid.currentTime < 57){
+			lyr.innerHTML = "I don't know if it's real"
+		}
+		else if(vid.currentTime < 59){
+			lyr.innerHTML = "But I like the way I feel inside"
+		}
+		else if(vid.currentTime < 63){
+			lyr.innerHTML = "You've got me feelin' emotions"
+		}
+		else if(vid.currentTime < 67){
+			lyr.innerHTML = "Deeper than I've ever dreamed of"
+		}
+		else if(vid.currentTime < 71){
+			lyr.innerHTML = "You've got me feelin' emotions"
+		}
+		else {
+			lyr.innerHTML = "Higher than the heavens above"
+		}
+	}
+</script>
+</body>
+</html>	
