@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NotUber</title>
+	<meta name="viewport" content="initial-scale=1.0">
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+	<link rel="stylesheet" type="text/css" href="notuber.css"/>
+	<script type="text/javascript" >
+		var username = "H2I2KaRj"; 
+		var myLat = 0; 
+		var myLng = 0; 
+		var request = new XMLHttpRequest(); 
+		var url = "https://defense-in-derpth.herokuapp.com/submit"; 
+		var param; 
+		var map; 
+		var me; 
+		var marker; 
+		var myOptions = {
+			zoom: 17, 
+			center: me,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var infowindow;
+		var elements; 
+		var distance = []; 
+
+		function init(){
+			map = new google.maps.Map(document.getElementById("mapCanvas"), myOptions);
+			getMyLocation(); 
+		}
+		function getMyLocation(){
+			if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
+					navigator.geolocation.getCurrentPosition(function(position) {
+						myLat = position.coords.latitude;
+						myLng = position.coords.longitude;
+						sendRequest(); 
+					});
+				}
+				else {
+					alert("Geolocation is not supported by your web browser.  What a shame!");
+				} 
+		}
+		function sendRequest(){
+			request.open("POST", url, true); 
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.onreadystatechange = function(){
+				if(request.readyState == 4 && request.status == 200) {
+					elements = JSON.parse(request.responseText);
+					console.log(request.responseText);
+					console.log(elements); 
+					console.log(elements['vehicles'].length);
+					renderMap();
+				}
+			}
+			param = "username=" + username + "&lat=" + myLat + "&lng=" + myLng;
+			request.send(param);
+			console.log(param);
+		}
+		function renderMap(){
+			me = new google.maps.LatLng(myLat, myLng);
+			map.panTo(me); 
+			marker = [new google.maps.Marker({
+				position: me,
+				title: username
+			})];
+			for (var i = 0; i < elements['vehicles'].length; i++) {
+				newpos = new google.maps.LatLng(elements['vehicles'][i]['lat'], elements['vehicles'][i]['lng']);
+				marker.push(new google.maps.Marker({
+					position: newpos,
+					title: elements['vehicles'][i]['_id']
+				})); 
+				distance.push(google.maps.geometry.spherical.computeDistanceBetween(newpos, me));
+			}
+			for (var i = 0; i < marker.length; i++) {
+				marker[i].setMap(map);
+				if (infowindow){
+					infowindow.close(); 
+				}
+				infowindow = new google.maps.InfoWindow();
+				if (i == 0){
+					infowindow.setContent(username);
+				}
+				if (i != 0) {
+					infowindow.setContent(String(distance[i-1]));
+				}
+				google.maps.event.addListener(marker[i], 'click', displayInfoWindow(map, infowindow, marker[0])); 
+			}
+		}
+		function displayInfoWindow(map, infowindow, marker){
+			return function(){
+				infowindow.open(map, marker)
+			}
+		}
+	</script>
+</head>
+
+<body onload="init()">
+	<div id = "mapCanvas"></div>
+</body>
+</html>
