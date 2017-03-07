@@ -20,7 +20,7 @@
 			center: me,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
-		var infowindow;
+		var infowindow = new google.maps.InfoWindow();
 		var elements; 
 		var distance = []; 
 
@@ -41,6 +41,7 @@
 				} 
 		}
 		function sendRequest(){
+			console.log("in send request");
 			request.open("POST", url, true); 
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			request.onreadystatechange = function(){
@@ -61,34 +62,33 @@
 			map.panTo(me); 
 			marker = [new google.maps.Marker({
 				position: me,
-				title: username
+				title: username,
+				content: username
 			})];
+			marker[0].setMap(map);
+			infowindow.setContent(username); 
+			infowindow.open(map, marker[0]); 
+			google.maps.event.addListener(marker[0], 'click', displayInfoWindow(map, infowindow, marker[0])); 
+
 			for (var i = 0; i < elements['vehicles'].length; i++) {
 				newpos = new google.maps.LatLng(elements['vehicles'][i]['lat'], elements['vehicles'][i]['lng']);
+				distance = google.maps.geometry.spherical.computeDistanceBetween(newpos, me);
 				marker.push(new google.maps.Marker({
 					position: newpos,
-					title: elements['vehicles'][i]['_id']
-				})); 
-				distance.push(google.maps.geometry.spherical.computeDistanceBetween(newpos, me));
+					title: elements['vehicles'][i]['_id'],
+					content: String(distance)
+				})); 	
 			}
 			for (var i = 0; i < marker.length; i++) {
 				marker[i].setMap(map);
-				if (infowindow){
-					infowindow.close(); 
-				}
-				infowindow = new google.maps.InfoWindow();
-				if (i == 0){
-					infowindow.setContent(username);
-				}
-				if (i != 0) {
-					infowindow.setContent(String(distance[i-1]));
-				}
-				google.maps.event.addListener(marker[i], 'click', displayInfoWindow(map, infowindow, marker[0])); 
+				google.maps.event.addListener(marker[i], 'click', displayInfoWindow(map, infowindow, marker[i])); 
 			}
+
 		}
 		function displayInfoWindow(map, infowindow, marker){
 			return function(){
-				infowindow.open(map, marker)
+				infowindow.setContent(this.content);
+				infowindow.open(map, this);
 			}
 		}
 	</script>
