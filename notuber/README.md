@@ -8,7 +8,7 @@ All requirements of this assignment has been met:
 	Info windows were correctly displayed; 
 	program works for both vihecles and passengers; 
 
-Also, the icon images were resized for easy of read. 
+Also, the icon images were resized for ease to read. 
 
 I discussed this assignment with Yuxuan Zhang, and a TA of this class in Halligan whose name I forgot to ask. She is a blonde girl. 
 
