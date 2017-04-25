@@ -27,67 +27,67 @@
 			Severity: High. XSS can be quite annoying to users and make the website look super unprofessional. 
 		</li>
 		<li>
-			Description: <img src="">
+			Description: I sent <xmp><script type='text/javascript'>alert('xss');</script></xmp> as the username to the server using postman. And then we I got to <a href="https://guarded-plains-17517.herokuapp.com/"></a> on my browser, an alert window popped up. 
 		</li>
 		<li>
-			Proof: 
+			Proof: <img src="xss.jpg" width="75%">
 		</li>
 		<li>
-			Resolution: 
-		</li>
-	</ul>
-</div>
-<div>Mislabel vehicle list as passenger list while posting to 
-	<ul>
-		<li>
-			Issue: 
-		</li>
-		<li>
-			Location: 
-		</li>
-		<li>
-			Severity: 
-		</li>
-		<li>
-			Description: 
-		</li>
-		<li>
-			Proof: 
-		</li>
-		<li>
-			Resolution: 
+			Resolution: Set a variable for each of the POST request body parameters. Then use <xmp>variable.replace(/[^\w\s]/gi, '')</xmp> to remove all special characters. 
 		</li>
 	</ul>
 </div>
-<div>Posting data with "_id":"undefined"
+<div>bad data
 	<ul>
 		<li>
-			Issue: 
+			Issue: The app takes in invalid data and stores them. 
 		</li>
 		<li>
-			Location: 
+			Location: The problem occurred in POST /submit but displays in GET /. 
 		</li>
 		<li>
-			Severity: 
+			Severity: Medium. This problem does not break the program, but it could cause the app not to function well when data is extracted from the app and used by the front end. 
 		</li>
 		<li>
-			Description: 
+			Description: I found this problem by posting javascript username to the database and then go to the main page in the browser. 
 		</li>
 		<li>
-			Proof: 
+			Proof: <img src="baddata.jpg" width="75%">
 		</li>
 		<li>
-			Resolution: 
+			Resolution: First check if the data being posted to the server is in the right format (string for username and double for lat and lng) before storing them as documents in the collection. 
+		</li>
+	</ul>
+</div>
+<div>wrong list
+	<ul>
+		<li>
+			Issue: The app returns the passenger list instead of vehicle list when a document is posted to the passenger collection. The app also returns the vehicle list instead of passenger list and mislabel it as the passenger list when a document is posted to the vehicle collection. It seems that the app also fails to only extract data from the last 5 minutes. The app also does not remove repetitive users from the list. 
+		</li>
+		<li>
+			Location: POST /submit
+		</li>
+		<li>
+			Severity: Medium. It gives out the wrong information, which can be really bad if the front end was not carefully adjusted to it. 
+		</li>
+		<li>
+			Description: I found it using postman to post data to the server. I observed the response. 
+		</li>
+		<li>
+			Proof: <img src="wronglist.jpg" width="75%">
+		</li>
+		<li>
+			Resolution: Overhaul the code so that it does the right thing. 
 		</li>
 	</ul>
 </div>
 
 <h2>Conclusion</h2>
-<div>Here is the conclusion. </div>
+<div>"guarded-plains-17517" does have the basic set up to be a server. However, it requires more caution on security, and quite a few changes needed to be made for the server to operated properly. </div>
 
 <h2>References</h2>
 <div>
-	Here are the references. 
+	I referred to the Wikipedia page for cross-site scripting. 
 </div>
 </body>
 </html>
